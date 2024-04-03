@@ -13,6 +13,24 @@ provider:
   environment:
     STAGE: ${sls:stage}
     REGION: ${aws:region}
+    ALGOLIA_API_KEY: ${ssm:/ALGOLIA_API_KEY}
+    TARGETS_TRACKER_TABLE: !Ref TargetsTrackerTrable
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - cloudwatch:*
+          Resource:
+            - '*'
+        - Effect: Allow
+          Action:
+            - dynamodb:*
+          Resource:
+            - !Sub "${TargetsTrackerTrable.Arn}"
+            - !Sub "${TargetsTrackerTrable.Arn}/index/*"
+
+resources: ${file(resources.yml)}
 
 functions:
   getTargets:

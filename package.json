@@ -2,6 +2,12 @@
   "name": "strain-hunter",
   "version": "1.0.0",
   "main": "index.js",
+  "engines": {
+    "npm": "please-use-yarn",
+    "yarn": ">=1.22",
+    "node": "18"
+  },
+  "private": true,
   "repository": "git@github.com:jordmax12/strain-hunter.git",
   "author": "jordmax12 <jordmax12@gmail.com>",
   "license": "MIT",
@@ -20,5 +26,8 @@
     "prettier": "^3.2.5",
     "serverless": "3.38.0",
     "serverless-plugin-monorepo": "^0.11.0"
+  },
+  "dependencies": {
+    "axios": "^1.6.8"
   }
 }
