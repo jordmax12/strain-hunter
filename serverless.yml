@@ -1,0 +1,27 @@
+service: strain-hunter
+app: strain-hunter
+org: jordmax12
+frameworkVersion: '^3'
+configValidationMode: error
+
+provider:
+  name: aws
+  region: us-east-1
+  runtime: nodejs18.x
+  architecture: arm64
+  memorySize: 512
+  environment:
+    STAGE: ${sls:stage}
+    REGION: ${aws:region}
+
+functions:
+  getTargets:
+    handler: get-targets.handler
+    name: rps-get-targets
+    timeout: 900
+    events:
+      # everyday at 8:00 AM UTC (12 AM PST)
+      - schedule: cron(00 16 ? * * *)
+
+plugins:
+  - serverless-plugin-monorepo
