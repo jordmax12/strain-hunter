@@ -9,8 +9,8 @@ const makeRequest = async (config) => {
     const response = await axios(config);
     return response?.data;
   } catch (e) {
-    console.log('logging error!');
-    console.log(config);
+    console.error('logging error!');
+    console.error(config);
     return null;
   }
 };

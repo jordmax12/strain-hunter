@@ -34,7 +34,6 @@ const normalizeHit = (hit, brandName) => {
   });
 
   return {
-    // message,
     raw_name: name,
     root_subtype: rootSubtype,
     percent_thc: percentThc,
