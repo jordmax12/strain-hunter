@@ -6,12 +6,6 @@ const handler = async () => {
   const brands = await getAllBrandsForFlower();
   const flowerProductPromises = brands.map(async (brandName) => {
     const normalizedHits = await getFlowerForBrand(brandName);
-    // console.log(normalizedHits);
-    // const findTargets = handleNormalizedHits(normalizedHits, STORE_ID);
-    // if (findTargets.length > -1) {
-    //   acc.inStock.push(...findTargets);
-    // }
-    // return acc;
     return normalizedHits;
   });
 
