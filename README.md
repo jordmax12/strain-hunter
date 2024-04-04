@@ -17,7 +17,6 @@ Fun project to create a notification system when user requested strains are avai
 ## Table of Contents
 
 - [Installation](#installation)
-- [Usage](#usage)
 
 ## Installation
 
