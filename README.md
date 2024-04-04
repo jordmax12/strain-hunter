@@ -1,6 +1,6 @@
 # Strain Hunter
 
-> A captivating one-liner that succinctly describes your project
+> A fun way to get notified when strains are available!
 
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE) [![GitHub issues](https://img.shields.io/github/issues/yourusername/yourrepository.svg)](https://github.com/yourusername/yourrepository/issues) [![GitHub stars](https://img.shields.io/github/stars/yourusername/yourrepository.svg)](https://github.com/yourusername/yourrepository/stargazers)
 
