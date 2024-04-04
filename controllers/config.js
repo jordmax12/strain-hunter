@@ -15,23 +15,23 @@ const STORE_MAPPER = {
   1283: 'Natures Care (Rolling Meadows)',
 };
 
-const TARGETS = [
-  {
-    strain_name: 'DAILY GRAPES',
-    brand: 'NEZ',
-    dispensary: RISE_STORE_ID,
-  },
-  {
-    strain_name: 'FRIED STRAWBERRIES',
-    brand: 'THE BOTANIST',
-    dispensary: NATURES_CARE_STORE_ID,
-  },
-  {
-    strain_name: 'LEMON BEAN',
-    brand: 'HIGH SUPPLY™',
-    dispensary: RISE_STORE_ID,
-  },
-];
+// const TARGETS = [
+//   {
+//     strain_name: 'DAILY GRAPES',
+//     brand: 'NEZ',
+//     dispensary: RISE_STORE_ID,
+//   },
+//   {
+//     strain_name: 'FRIED STRAWBERRIES',
+//     brand: 'THE BOTANIST',
+//     dispensary: NATURES_CARE_STORE_ID,
+//   },
+//   {
+//     strain_name: 'LEMON BEAN',
+//     brand: 'HIGH SUPPLY™',
+//     dispensary: RISE_STORE_ID,
+//   },
+// ];
 /**
  * Helper function to log if config setting is true.
  * @param {String} log Desired log message.
@@ -50,7 +50,7 @@ module.exports = {
   ROOT_AGOLIA_URL,
   STORE_ID,
   STORE_MAPPER,
-  TARGETS,
+  // TARGETS,
   logger,
   verboseLogger,
 };

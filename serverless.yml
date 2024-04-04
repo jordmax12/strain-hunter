@@ -14,7 +14,8 @@ provider:
     STAGE: ${sls:stage}
     REGION: ${aws:region}
     ALGOLIA_API_KEY: ${ssm:/ALGOLIA_API_KEY}
-    TARGETS_TRACKER_TABLE: !Ref TargetsTrackerTrable
+    TARGETS_TRACKER_TABLE: !Ref TargetsTrackerTable
+    USERS_TABLE: !Ref UsersTable
   iam:
     role:
       statements:
@@ -27,8 +28,10 @@ provider:
           Action:
             - dynamodb:*
           Resource:
-            - !Sub "${TargetsTrackerTrable.Arn}"
-            - !Sub "${TargetsTrackerTrable.Arn}/index/*"
+            - !Sub "${TargetsTrackerTable.Arn}"
+            - !Sub "${TargetsTrackerTable.Arn}/index/*"
+            - !Sub "${UsersTable.Arn}"
+            - !Sub "${UsersTable.Arn}/index/*"
 
 resources: ${file(resources.yml)}
 
