@@ -4,7 +4,7 @@
 
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE) [![GitHub issues](https://img.shields.io/github/issues/yourusername/yourrepository.svg)](https://github.com/yourusername/yourrepository/issues) [![GitHub stars](https://img.shields.io/github/stars/yourusername/yourrepository.svg)](https://github.com/yourusername/yourrepository/stargazers)
 
-[![StrainHunter](https://www.cannabisbarcelona.com/wp-content/uploads/2017/02/IMG_1326.jpgg)](https://strainhunter.io)
+[![StrainHunter](https://www.cannabisbarcelona.com/wp-content/uploads/2017/02/IMG_1326.jpg)](https://strainhunter.io)
 
 ## Introduction
 
