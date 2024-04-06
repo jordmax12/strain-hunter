@@ -1,4 +1,5 @@
 const { getAllBrandsForFlower, getFlowerForBrand } = require('./controllers/algolia');
+const { sendSms } = require('./controllers/click-send');
 const { STORE_ID, logger } = require('./controllers/config');
 const { handleNormalizedHits } = require('./controllers/logic');
 const { generateTargetTrackerId, createTargetTracker } = require('./controllers/targets-tracker');
@@ -18,7 +19,7 @@ const handler = async () => {
 
     const normalizedHits = await Promise.all(flowerProductPromises);
 
-    const inStockTargets = handleNormalizedHits(normalizedHits.flat(), STORE_ID, targets, phoneNumber);
+    const inStockTargets = await handleNormalizedHits(normalizedHits.flat(), STORE_ID, targets, phoneNumber);
 
     logger({
       inStockTargets,
@@ -32,6 +33,10 @@ const handler = async () => {
       });
 
       await createTargetTracker(target, targetTrackerId, phoneNumber);
+
+      // await sendSms(`New update for ${brand} (${strainName})! Check your email`, phoneNumber);
+      // NOTE: so this works, the `message` is too spam-y for carriers. It will get rejected.
+      // We can send that message in an email instead and/or discord message.
 
       return true;
     });

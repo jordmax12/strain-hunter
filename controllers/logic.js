@@ -55,6 +55,7 @@ const handleNormalizedHits = (normalizedHits, dispensaryCode, targets, phoneNumb
           prices,
           root_subtype: rootSubtype,
           percent_thc: percentThc,
+          message,
         });
         logger(message);
       }

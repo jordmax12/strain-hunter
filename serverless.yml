@@ -14,6 +14,7 @@ provider:
     STAGE: ${sls:stage}
     REGION: ${aws:region}
     ALGOLIA_API_KEY: ${ssm:/ALGOLIA_API_KEY}
+    CLICK_SEND_BASIC_AUTH: ${ssm:/CLICK_SEND_BASIC_AUTH}
     TARGETS_TRACKER_TABLE: !Ref TargetsTrackerTable
     USERS_TABLE: !Ref UsersTable
   iam:
@@ -40,9 +41,23 @@ functions:
     handler: get-targets.handler
     name: rps-get-targets
     timeout: 900
-    events:
+    # events:
+    #   - schedule: rate(1 hour)
       # everyday at 8:00 AM UTC (12 AM PST)
-      - schedule: cron(00 16 ? * * *)
+      # - schedule: cron(00 16 ? * * *)
+  targetSMSListener:
+    handler: target-sms-listener.handler
+    name: rps-target-sms-listener
+    timeout: 900
+    events:
+      - stream:
+          type: dynamodb
+          arn: !GetAtt TargetsTrackerTable.StreamArn
+          batchSize: 100
+          startingPosition: LATEST
+          maximumRetryAttempts: 3
+          filterPatterns:
+            - eventName: [INSERT]
 
 plugins:
   - serverless-plugin-monorepo
