@@ -22,6 +22,11 @@ provider:
       statements:
         - Effect: Allow
           Action:
+            - ses:*
+          Resource:
+            - '*'
+        - Effect: Allow
+          Action:
             - cloudwatch:*
           Resource:
             - '*'
@@ -48,6 +53,19 @@ functions:
   targetSMSListener:
     handler: target-sms-listener.handler
     name: rps-target-sms-listener
+    timeout: 900
+    events:
+      - stream:
+          type: dynamodb
+          arn: !GetAtt TargetsTrackerTable.StreamArn
+          batchSize: 100
+          startingPosition: LATEST
+          maximumRetryAttempts: 3
+          filterPatterns:
+            - eventName: [INSERT]
+  targetEmailListener:
+    handler: target-email-listener.handler
+    name: rps-target-email-listener
     timeout: 900
     events:
       - stream:
