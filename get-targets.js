@@ -1,6 +1,6 @@
 const { getAllBrandsForFlower, getFlowerForBrand } = require('./controllers/algolia');
 const { sendSms } = require('./controllers/click-send');
-const { STORE_ID, logger } = require('./controllers/config');
+const { logger } = require('./controllers/config');
 const { handleNormalizedHits } = require('./controllers/logic');
 const { generateTargetTrackerId, createTargetTracker } = require('./controllers/targets-tracker');
 const { getAllUsers } = require('./controllers/users');
@@ -11,37 +11,45 @@ const handler = async () => {
   // If this somehow scales past this we can figure that out later.
   // Can always segment lambdas out and keep track of state.
   const promises = users.map(async ({ phone_number: phoneNumber, targets }) => {
-    const brands = await getAllBrandsForFlower();
-    const flowerProductPromises = brands.map(async (brandName) => {
-      const normalizedHits = await getFlowerForBrand(brandName);
-      return normalizedHits;
+    console.log({
+      targets,
     });
-
-    const normalizedHits = await Promise.all(flowerProductPromises);
-
-    const inStockTargets = await handleNormalizedHits(normalizedHits.flat(), STORE_ID, targets, phoneNumber);
-
-    logger({
-      inStockTargets,
-    });
-
-    const targetTrackerPromises = inStockTargets.map(async (target) => {
-      const { strain_name: strainName, dispensary, brand, sizes } = target;
-      const targetTrackerId = generateTargetTrackerId(strainName, brand, dispensary, sizes, phoneNumber);
-      logger({
-        targetTrackerId,
+    const targetPromises = targets.map(async ({ dispensary: storeId }) => {
+      const brands = await getAllBrandsForFlower(storeId);
+      const flowerProductPromises = brands.map(async (brandName) => {
+        const normalizedHits = await getFlowerForBrand(brandName, storeId);
+        return normalizedHits;
       });
 
-      await createTargetTracker(target, targetTrackerId, phoneNumber);
+      const normalizedHits = await Promise.all(flowerProductPromises);
 
-      // await sendSms(`New update for ${brand} (${strainName})! Check your email`, phoneNumber);
-      // NOTE: so this works, the `message` is too spam-y for carriers. It will get rejected.
-      // We can send that message in an email instead and/or discord message.
+      const inStockTargets = await handleNormalizedHits(normalizedHits.flat(), storeId, targets, phoneNumber, storeId);
 
-      return true;
+      logger({
+        inStockTargets,
+      });
+
+      const targetTrackerPromises = inStockTargets.map(async (target) => {
+        const { strain_name: strainName, dispensary, brand, sizes } = target;
+        const targetTrackerId = generateTargetTrackerId(strainName, brand, dispensary, sizes, phoneNumber);
+        logger({
+          targetTrackerId,
+        });
+
+        await createTargetTracker(target, targetTrackerId, phoneNumber);
+
+        // await sendSms(`New update for ${brand} (${strainName})! Check your email`, phoneNumber);
+        // NOTE: so this works, the `message` is too spam-y for carriers. It will get rejected.
+        // We can send that message in an email instead and/or discord message.
+
+        return true;
+      });
+
+      await Promise.all(targetTrackerPromises);
     });
 
-    await Promise.all(targetTrackerPromises);
+    await Promise.all(targetPromises);
+    return true;
   });
 
   await Promise.all(promises);

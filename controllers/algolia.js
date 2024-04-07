@@ -47,22 +47,23 @@ const normalizeHit = (hit, brandName) => {
 /**
  * Helper function to get flower by brand.
  * @param {String} brandName Brand name we want to query against.
+ * @param {Number} storeId ID fo the store.
  * @returns Array of flowers by brand.
  */
-const getFlowerForBrand = async (brandName) => {
+const getFlowerForBrand = async (brandName, storeId) => {
   const config = {
     ...baseConfig,
     data: JSON.stringify({
       query: '',
       hitsPerPage: 16,
-      filters: `store_id:${STORE_ID} AND (brand:"${brandName}" AND kind:"${KIND}")`,
+      filters: `store_id:${storeId} AND (brand:"${brandName}" AND kind:"${KIND}")`,
     }),
   };
 
   const results = await makeRequest(config);
 
   if (DEBUG_CONFIG.saveResults) {
-    const dir = `./data/${STORE_ID}-${STORE_MAPPER[STORE_ID]}`;
+    const dir = `./data/${storeId}-${STORE_MAPPER[storeId]}`;
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir);
     }
@@ -81,12 +82,13 @@ const getFlowerForBrand = async (brandName) => {
 };
 /**
  * Helper function to get all brands by store id (dispensary).
+ * @param {String} storeId Store id that we are querying against.
  * @returns List of all brands that contain flower for this dispensary.
  */
-const getAllBrandsForFlower = async () => {
+const getAllBrandsForFlower = async (storeId) => {
   const data = JSON.stringify({
     query: '',
-    filters: `store_id = ${STORE_ID} AND (root_types:"flower")`,
+    filters: `store_id = ${storeId} AND (root_types:"flower")`,
     facets: ['*'],
   });
 

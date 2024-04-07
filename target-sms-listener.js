@@ -15,7 +15,7 @@ const handler = async (event) => {
     const { tracker_obj: target, user_id: phoneNumber } = newImage;
     const { strain_name: strainName, brand } = target;
 
-    // await sendSms(`New update for ${brand} (${strainName})! Check your email.`, phoneNumber);
+    await sendSms(`New update for ${brand} (${strainName})! Check your email.`, phoneNumber);
   });
 
   await Promise.all(promises);

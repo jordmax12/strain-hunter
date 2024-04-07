@@ -21,7 +21,7 @@ const handler = async (event) => {
     if (user) {
       const { email } = user;
 
-      //   await sendEmail(email, message);
+      await sendEmail(email, message);
     }
   });
 
