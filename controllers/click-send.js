@@ -18,16 +18,12 @@ const sendSms = async (message, to) => {
     ],
   };
 
-  console.log(data);
-
   const results = await axios.post('https://rest.clicksend.com/v3/sms/send', data, {
     headers: {
       Authorization: `Basic ${CLICK_SEND_BASIC_AUTH}`,
       'Content-Type': 'application/json',
     },
   });
-
-  console.log(results.data);
 
   return results?.data || null;
 };

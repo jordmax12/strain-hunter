@@ -28,26 +28,17 @@ const createTargetTracker = async (targetTrackerObjRaw, targetTrackerId, phoneNu
     updated_at: new Date().toISOString(),
   };
 
-  console.log({
-    targetTrackerObj,
-  });
-
   const params = {
     TableName: TARGETS_TRACKER_TABLE,
     Item: targetTrackerObj,
     ConditionExpression: 'attribute_not_exists(id) AND attribute_not_exists(user_id)',
   };
 
-  console.log({
-    params,
-  });
-
   try {
     await CLIENT.send(new PutCommand(params));
-    console.log('shouldnt make it here');
     return targetTrackerObj;
   } catch (e) {
-    console.log(e);
+    console.error(e);
     return null;
   }
 };
