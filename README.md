@@ -22,6 +22,3 @@ Fun project to create a notification system when user requested strains are avai
 ![SMS Example](/strain_hunter_sms_250.jpg?raw=true "SMS Example")
 ![Email In Stock Example](/strain_hunter_email_in_stock_250.jpg?raw=true "Email In Stock Example")
 ![Email Out Of Stock Example](/strain_hunter_email_out_of_stock_250.jpg?raw=true "Email Out Of Stock Example")
-
-```bash
-yarn install
