@@ -8,11 +8,11 @@
 
 ## Introduction
 
-Fun project to create a notification system when user requested strains are available in IL dispensaries. Will kick off a SMS text when its in stock, and then keep track of it until it goes out of stock in which case another SMS will be fired off.
+Fun project to create a notification system when user requested strains are available in IL dispensaries. Will kick off a SMS and email when its in stock, and then keep track of it until it goes out of stock in which case another SMS and email will be fired off.
 
 ## Features
 
-- Feature 1: SMS notification when user requested strain is in stock w/ dispensary, price, thc and sizes available information.
+- Feature 1: SMS/email notification when user requested strain is in stock w/ dispensary, price, thc and sizes available information.
 
 ## Table of Contents
 
