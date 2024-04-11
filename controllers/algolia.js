@@ -1,6 +1,6 @@
 const fs = require('fs');
 const { makeRequest } = require('./request');
-const { DEBUG_CONFIG, ROOT_AGOLIA_URL, STORE_MAPPER, STORE_ID, verboseLogger } = require('./config');
+const { DEBUG_CONFIG, ROOT_AGOLIA_URL, STORE_MAPPER, verboseLogger } = require('./config');
 
 const { ALGOLIA_API_KEY } = process.env;
 
@@ -22,7 +22,13 @@ const baseConfig = {
  * @returns Object containing normalized hit data.
  */
 const normalizeHit = (hit, brandName) => {
-  const { percent_thc: percentThc, root_subtype: rootSubtype, available_weights: availableWeights, name } = hit;
+  const {
+    percent_thc: percentThc,
+    root_subtype: rootSubtype,
+    available_weights: availableWeights,
+    name,
+    product_id: productId,
+  } = hit;
 
   const customThc = `${percentThc}% THC`;
   const customName = rootSubtype ? `${name} (${customThc} - ${rootSubtype})` : `${name} (${customThc})`;
@@ -42,6 +48,7 @@ const normalizeHit = (hit, brandName) => {
     available_weights: availableWeights,
     sizes: availableWeights.join('/'),
     prices: prices.join('/'),
+    product_id: productId,
   };
 };
 /**
@@ -67,6 +74,8 @@ const getFlowerForBrand = async (brandName, storeId) => {
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir);
     }
+
+    // TODO: write in S3, this was pre-lambda testing.
     fs.writeFileSync(`${dir}/${brandName}.json`, JSON.stringify(results));
   }
 
@@ -82,7 +91,7 @@ const getFlowerForBrand = async (brandName, storeId) => {
 };
 /**
  * Helper function to get all brands by store id (dispensary).
- * @param {String} storeId Store id that we are querying against.
+ * @param {Number} storeId Store id that we are querying against.
  * @returns List of all brands that contain flower for this dispensary.
  */
 const getAllBrandsForFlower = async (storeId) => {
@@ -106,9 +115,34 @@ const getAllBrandsForFlower = async (storeId) => {
   verboseLogger({ brands });
   return brands;
 };
+/**
+ * Helper function to get a product id using its store id.
+ * @param {Number} productId Product ID we want to search against.
+ * @param {Number} storeId Store ID we want to search against.
+ * @returns Product details, if exists. Null if not.
+ */
+const getProductIdByStoreId = async (productId, storeId) => {
+  const data = JSON.stringify({
+    query: '',
+    filters: `store_id = ${storeId} AND (product_id = ${productId})`,
+  });
+
+  const config = {
+    ...baseConfig,
+    data,
+  };
+
+  const results = await makeRequest(config);
+
+  console.log('logging results');
+  console.log(JSON.stringify(results, null, 4));
+
+  return results?.hits && Array.isArray(results.hits) && results.hits.length > 0 ? results.hits[0] : null;
+};
 
 module.exports = {
   getAllBrandsForFlower,
   getFlowerForBrand,
+  getProductIdByStoreId,
   normalizeHit,
 };

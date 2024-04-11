@@ -27,7 +27,6 @@ module.exports = {
   DEBUG_CONFIG,
   ROOT_AGOLIA_URL,
   STORE_MAPPER,
-  // TARGETS,
   logger,
   verboseLogger,
 };

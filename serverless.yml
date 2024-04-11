@@ -16,6 +16,7 @@ provider:
     ALGOLIA_API_KEY: ${ssm:/ALGOLIA_API_KEY}
     CLICK_SEND_BASIC_AUTH: ${ssm:/CLICK_SEND_BASIC_AUTH}
     TARGETS_TRACKER_TABLE: !Ref TargetsTrackerTable
+    TARGETS_TRACKER_ARCHIVE_TABLE: !Ref TargetsTrackerArchiveTable
     USERS_TABLE: !Ref UsersTable
   iam:
     role:
@@ -36,23 +37,29 @@ provider:
           Resource:
             - !Sub "${TargetsTrackerTable.Arn}"
             - !Sub "${TargetsTrackerTable.Arn}/index/*"
+            - !Sub "${TargetsTrackerArchiveTable.Arn}"
+            - !Sub "${TargetsTrackerArchiveTable.Arn}/index/*"
             - !Sub "${UsersTable.Arn}"
             - !Sub "${UsersTable.Arn}/index/*"
 
 resources: ${file(resources.yml)}
 
 functions:
-  getTargets:
-    handler: get-targets.handler
-    name: rps-get-targets
+  inStockListener:
+    handler: in-stock-listener.handler
+    name: sh-in-stock-listener
     timeout: 900
-    # events:
-    #   - schedule: rate(1 hour)
-      # everyday at 8:00 AM UTC (12 AM PST)
-      # - schedule: cron(00 16 ? * * *)
+    events:
+      - schedule: rate(1 hour)
+  outOfStockListener:
+    handler: out-of-stock-listener.handler
+    name: sh-out-of-stock-listener
+    timeout: 900
+    events:
+      - schedule: rate(1 hour)
   targetSMSListener:
     handler: target-sms-listener.handler
-    name: rps-target-sms-listener
+    name: sh-target-sms-listener
     timeout: 900
     events:
       - stream:
@@ -65,12 +72,38 @@ functions:
             - eventName: [INSERT]
   targetEmailListener:
     handler: target-email-listener.handler
-    name: rps-target-email-listener
+    name: sh-target-email-listener
     timeout: 900
     events:
       - stream:
           type: dynamodb
           arn: !GetAtt TargetsTrackerTable.StreamArn
+          batchSize: 100
+          startingPosition: LATEST
+          maximumRetryAttempts: 3
+          filterPatterns:
+            - eventName: [INSERT]
+  targetArchiveSMSListener:
+    handler: target-sms-listener.handler
+    name: sh-target-archive-sms-listener
+    timeout: 900
+    events:
+      - stream:
+          type: dynamodb
+          arn: !GetAtt TargetsTrackerArchiveTable.StreamArn
+          batchSize: 100
+          startingPosition: LATEST
+          maximumRetryAttempts: 3
+          filterPatterns:
+            - eventName: [INSERT]
+  targetArchiveEmailListener:
+    handler: target-archive-email-listener.handler
+    name: sh-target-archive-email-listener
+    timeout: 900
+    events:
+      - stream:
+          type: dynamodb
+          arn: !GetAtt TargetsTrackerArchiveTable.StreamArn
           batchSize: 100
           startingPosition: LATEST
           maximumRetryAttempts: 3

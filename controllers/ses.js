@@ -11,19 +11,6 @@ const SOURCE_EMAIL = 'strainhunterapp@gmail.com';
  * @returns Result of SESClient.sendEmail.
  */
 const sendEmail = async (email, message) => {
-  //   const emailParams = {
-  //     Destination: {
-  //       ToAddresses: [email],
-  //     },
-  //     Message: {
-  //       Body: {
-  //         Text: { Data: `Please confirm your email by visiting the following link ${shortenVerificationLink}` },
-  //       },
-  //       Subject: { Data: `Feastables: Please Confirm Your Email` },
-  //     },
-  //     Source: FEASTABLES_EMAIL,
-  //   };
-
   const params = {
     Source: SOURCE_EMAIL,
     Destination: {

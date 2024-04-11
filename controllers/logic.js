@@ -37,6 +37,7 @@ const handleNormalizedHits = (normalizedHits, dispensaryCode, targets, phoneNumb
         prices,
         root_subtype: rootSubtype,
         percent_thc: percentThc,
+        product_id: productId,
       } = normalizedHit;
       verboseLogger({
         name,
@@ -59,6 +60,7 @@ const handleNormalizedHits = (normalizedHits, dispensaryCode, targets, phoneNumb
           root_subtype: rootSubtype,
           percent_thc: percentThc,
           message,
+          product_id: productId,
         });
         logger(message);
       }
