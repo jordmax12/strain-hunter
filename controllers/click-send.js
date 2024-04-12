@@ -1,6 +1,15 @@
-const axios = require('axios');
+const { makeRequest } = require('./request');
 
 const { CLICK_SEND_BASIC_AUTH } = process.env;
+
+const baseConfig = {
+  method: 'post',
+  url: 'https://rest.clicksend.com/v3/sms/send',
+  headers: {
+    Authorization: `Basic ${CLICK_SEND_BASIC_AUTH}`,
+    'Content-Type': 'application/json',
+  },
+};
 /**
  * Helper function to send an sms message to a number.
  * @param {String} message Message we want to send in sms.
@@ -8,22 +17,20 @@ const { CLICK_SEND_BASIC_AUTH } = process.env;
  * @returns truthy if successful, falsy if not.
  */
 const sendSms = async (message, to) => {
-  const data = {
-    messages: [
-      {
-        source: 'php',
-        body: `Strain Hunter: ${message}`,
-        to,
-      },
-    ],
+  const config = {
+    ...baseConfig,
+    data: JSON.stringify({
+      messages: [
+        {
+          source: 'php',
+          body: `Strain Hunter: ${message}`,
+          to,
+        },
+      ],
+    }),
   };
 
-  const results = await axios.post('https://rest.clicksend.com/v3/sms/send', data, {
-    headers: {
-      Authorization: `Basic ${CLICK_SEND_BASIC_AUTH}`,
-      'Content-Type': 'application/json',
-    },
-  });
+  const results = await makeRequest(config);
 
   return results?.data || null;
 };

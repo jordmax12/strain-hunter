@@ -1,7 +1,6 @@
 const DEBUG_CONFIG = {
   logs: true,
   verbose: false,
-  saveResults: false,
 };
 
 const ROOT_AGOLIA_URL = 'https://vfm4x0n23a-dsn.algolia.net/1/indexes/menu-products-production/query';

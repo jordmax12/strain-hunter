@@ -1,6 +1,5 @@
-const fs = require('fs');
 const { makeRequest } = require('./request');
-const { DEBUG_CONFIG, ROOT_AGOLIA_URL, STORE_MAPPER, verboseLogger } = require('./config');
+const { ROOT_AGOLIA_URL, verboseLogger } = require('./config');
 
 const { ALGOLIA_API_KEY } = process.env;
 
@@ -68,16 +67,6 @@ const getFlowerForBrand = async (brandName, storeId) => {
   };
 
   const results = await makeRequest(config);
-
-  if (DEBUG_CONFIG.saveResults) {
-    const dir = `./data/${storeId}-${STORE_MAPPER[storeId]}`;
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir);
-    }
-
-    // TODO: write in S3, this was pre-lambda testing.
-    fs.writeFileSync(`${dir}/${brandName}.json`, JSON.stringify(results));
-  }
 
   const { hits } = results;
   verboseLogger({ hitsLength: hits.length });
