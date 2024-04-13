@@ -7,14 +7,21 @@ const sesMock = mockClient(SESClient);
 const mockEmail = 'mock@email.com';
 const mockMessage = 'Hello World';
 
+process.env.SES_FROM_EMAIL = mockEmail;
+
 const { sendEmail } = require('../../controllers/ses');
 
 beforeAll(() => {
+  process.env.SES_FROM_EMAIL = mockEmail;
   jest.clearAllMocks();
 });
 
 afterEach(() => {
   jest.clearAllMocks();
+});
+
+afterAll(() => {
+  process.env.SES_FROM_EMAIL = null;
 });
 
 describe('testing ses controller', () => {
@@ -26,7 +33,7 @@ describe('testing ses controller', () => {
     const result = await sendEmail(mockEmail, mockMessage);
 
     expect(sesMock.calls()[0].args[0].input).toEqual({
-      Source: 'strainhunterapp@gmail.com',
+      Source: mockEmail,
       Destination: {
         ToAddresses: [mockEmail],
       },

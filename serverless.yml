@@ -15,6 +15,7 @@ provider:
     REGION: ${aws:region}
     ALGOLIA_API_KEY: ${ssm:/ALGOLIA_API_KEY}
     CLICK_SEND_BASIC_AUTH: ${ssm:/CLICK_SEND_BASIC_AUTH}
+    SES_FROM_EMAIL: ${ssm:/SES_FROM_EMAIL}
     TARGETS_TRACKER_TABLE: !Ref TargetsTrackerTable
     TARGETS_TRACKER_ARCHIVE_TABLE: !Ref TargetsTrackerArchiveTable
     USERS_TABLE: !Ref UsersTable

@@ -1,8 +1,7 @@
 const { SESClient, SendEmailCommand } = require('@aws-sdk/client-ses');
 
 const sesClient = new SESClient({ region: 'us-east-1' });
-
-const SOURCE_EMAIL = 'strainhunterapp@gmail.com';
+const { SES_FROM_EMAIL } = process.env;
 
 /**
  * Helper function to send verficaiton email.
@@ -12,7 +11,7 @@ const SOURCE_EMAIL = 'strainhunterapp@gmail.com';
  */
 const sendEmail = async (email, message) => {
   const params = {
-    Source: SOURCE_EMAIL,
+    Source: SES_FROM_EMAIL,
     Destination: {
       ToAddresses: [email],
     },

@@ -21,7 +21,6 @@ const handler = async (event) => {
   await Promise.all(promises);
 
   return {
-    success: true,
     statusCode: 200,
   };
 };
