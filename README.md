@@ -14,10 +14,6 @@ Fun project to create a notification system when user requested strains are avai
 
 - Feature 1: SMS/email notification when user requested strain is in stock w/ dispensary, price, thc and sizes available information.
 
-## Table of Contents
-
-- [Installation](#installation)
-
 ## Example
 ![SMS Example](/static/strain_hunter_sms_250.jpg?raw=true "SMS Example")
 ![Email In Stock Example](/static/strain_hunter_email_in_stock_250.jpg?raw=true "Email In Stock Example")
