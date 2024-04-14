@@ -123,9 +123,6 @@ const getProductIdByStoreId = async (productId, storeId) => {
 
   const results = await makeRequest(config);
 
-  console.log('logging results');
-  console.log(JSON.stringify(results, null, 4));
-
   return results?.hits && Array.isArray(results.hits) && results.hits.length > 0 ? results.hits[0] : null;
 };
 

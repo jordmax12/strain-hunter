@@ -2,8 +2,8 @@ const { unmarshall } = require('@aws-sdk/util-dynamodb');
 const { sendSms } = require('./controllers/click-send');
 
 const handler = async (event) => {
-  console.log('logging event');
-  console.log(JSON.stringify(event));
+  console.info('logging event');
+  console.info(JSON.stringify(event));
 
   const { Records: records } = event;
 

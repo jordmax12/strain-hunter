@@ -58,8 +58,7 @@ const deleteTargetTracker = async (targetTrackerId, phoneNumber) => {
         user_id: phoneNumber,
       },
     };
-    const response = await CLIENT.send(new DeleteCommand(params));
-    console.log('Item deleted:', response);
+    await CLIENT.send(new DeleteCommand(params));
     return true;
   } catch (err) {
     console.error('Error:', err);

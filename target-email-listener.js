@@ -3,8 +3,8 @@ const { sendEmail } = require('./controllers/ses');
 const { getUser } = require('./controllers/users');
 
 const handler = async (event) => {
-  console.log('logging event');
-  console.log(JSON.stringify(event));
+  console.info('logging event');
+  console.info(JSON.stringify(event));
 
   const { Records: records } = event;
 

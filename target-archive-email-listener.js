@@ -4,8 +4,8 @@ const { getUser } = require('./controllers/users');
 const { STORE_MAPPER } = require('./controllers/config');
 
 const handler = async (event) => {
-  console.log('logging event');
-  console.log(JSON.stringify(event));
+  console.info('logging event');
+  console.info(JSON.stringify(event));
 
   const { Records: records } = event;
 
