@@ -14,4 +14,3 @@ updates:
         versions: [">2.1195.0"]
     reviewers:
       - 'jordmax12'
-      - 'SebastianKurp'
