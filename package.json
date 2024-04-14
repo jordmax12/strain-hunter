@@ -17,7 +17,8 @@
         "test": "jest unit --detectOpenHandles",
         "test:single": "jest -i unit -t",
         "test:coverage": "jest unit --coverage",
-        "test:int": "jest int.test"
+        "test:int": "jest int.test",
+        "test:workflow": "jest unit --coverage --detectOpenHandles --silent"
     },
     "devDependencies": {
         "aws-sdk-client-mock": "^4.0.0",
