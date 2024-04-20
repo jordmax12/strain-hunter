@@ -8,6 +8,7 @@ const ROOT_AGOLIA_URL = 'https://vfm4x0n23a-dsn.algolia.net/1/indexes/menu-produ
 const STORE_MAPPER = {
   253: 'RISE (Mundelein)',
   1283: 'Natures Care (Rolling Meadows)',
+  1462: 'Nuera (Chicago)',
 };
 /**
  * Helper function to log if config setting is true.
