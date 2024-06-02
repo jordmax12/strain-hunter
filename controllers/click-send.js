@@ -30,9 +30,10 @@ const sendSms = async (message, to) => {
     }),
   };
 
-  const results = await makeRequest(config);
+  // const results = await makeRequest(config);
 
-  return results?.data || null;
+  // return results?.data || null;
+  return null;
 };
 
 module.exports = {
