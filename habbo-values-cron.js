@@ -131,11 +131,18 @@ const getTraderClubValuesData = async () => {
   }));
 };
 
+const config = {
+  headers: {
+    'User-Agent':
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3',
+  },
+};
+
 const getOriginsValuesData = async () => {
   const url = 'https://originvalues.com/';
 
   try {
-    const response = await axios.get(url);
+    const response = await axios.get(url, config);
     const html = response.data;
     const $ = cheerio.load(html);
 
@@ -166,7 +173,7 @@ const getHabbendValuesData = async () => {
   const url = 'https://www.habbend.com/';
 
   try {
-    const response = await axios.get(url);
+    const response = await axios.get(url, config);
     const html = response.data;
     const $ = cheerio.load(html);
 
