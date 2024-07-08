@@ -52,8 +52,8 @@ functions:
     handler: habbo-values-cron.handler
     name: sh-habbo-values-cron
     timeout: 900
-    events:
-      - schedule: rate(1 hour)
+    # events:
+    #   - schedule: rate(1 hour)
   inStockListener:
     handler: in-stock-listener.handler
     name: sh-in-stock-listener
