@@ -15,6 +15,8 @@ provider:
     REGION: ${aws:region}
     ALGOLIA_API_KEY: ${ssm:/ALGOLIA_API_KEY}
     CLICK_SEND_BASIC_AUTH: ${ssm:/CLICK_SEND_BASIC_AUTH}
+    DISCORD_CHANNEL_ID: ${ssm:/DISCORD_CHANNEL_ID}
+    DISCORD_TOKEN: ${ssm:/DISCORD_TOKEN}
     SES_FROM_EMAIL: ${ssm:/SES_FROM_EMAIL}
     TARGETS_TRACKER_TABLE: !Ref TargetsTrackerTable
     TARGETS_TRACKER_ARCHIVE_TABLE: !Ref TargetsTrackerArchiveTable
@@ -46,6 +48,12 @@ provider:
 resources: ${file(resources.yml)}
 
 functions:
+  habboValuesCron:
+    handler: habbo-values-cron.handler
+    name: sh-habbo-values-cron
+    timeout: 900
+    events:
+      - schedule: rate(1 hour)
   inStockListener:
     handler: in-stock-listener.handler
     name: sh-in-stock-listener

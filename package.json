@@ -41,6 +41,7 @@
         "@aws-sdk/client-ses": "^3.554.0",
         "@aws-sdk/lib-dynamodb": "^3.554.0",
         "@aws-sdk/util-dynamodb": "^3.549.0",
-        "axios": "^1.6.8"
+        "axios": "^1.6.8",
+        "cheerio": "^1.0.0-rc.12"
     }
 }
